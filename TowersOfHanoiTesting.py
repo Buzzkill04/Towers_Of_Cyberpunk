@@ -6,7 +6,7 @@ winSizeWidth, winSizeHeight = 1200, 800
 win = pygame.display.set_mode((winSizeWidth, winSizeHeight))
 pygame.display.set_caption("Towers of Cyberpunk")
 fps = 10
-velocity = 30
+velocity = 10
 backroundImage = pygame.image.load(os.path.join("Assets", "scrollingimage.gif"))
 towersImage = pygame.image.load(os.path.join("Assets", "3towers.png"))
 diskOneL = pygame.image.load(os.path.join("Assets", "Blue Disk.png"))
@@ -19,72 +19,113 @@ diskOne = pygame.transform.scale(diskOneL, (diskWidthL, diskHeightL))
 diskTwo = pygame.transform.scale(diskTwoM, (diskWidthM, diskHeightM))
 diskThree = pygame.transform.scale(diskThreeS, (diskWidthS, diskHeightS))
 moveCount = 0
+allowedMove = True
 
 #checking if disk bigger, just check if the x coords are the same and the y value is larger/less than the placed disk
 
-def moveDisks(keyPressed, selectedDisk, diskOneMove, diskTwoMove, diskThreeMove):
+def moveDisks(keyPressed, selectedDisk, diskOneMove, diskTwoMove, diskThreeMove, groundCollider):
     global moveCount
+    global allowedMove
+    ticks = 50
     if selectedDisk == diskThreeMove:
-        if keyPressed[pygame.K_w] and selectedDisk.y > 175:
-            selectedDisk.y -= velocity
-        elif keyPressed[pygame.K_a] and selectedDisk.x == 500 and selectedDisk.y in (164, 172):
+        if keyPressed[pygame.K_w]:
+            selectedDisk.y = 166
+        elif keyPressed[pygame.K_a] and selectedDisk.x == 500 and selectedDisk.y == 166:
             selectedDisk.x = 125
-        elif keyPressed[pygame.K_a] and selectedDisk.x == 870 and selectedDisk.y in (164, 172):
+        elif keyPressed[pygame.K_a] and selectedDisk.x == 870 and selectedDisk.y == 166:
             selectedDisk.x = 500
-        #elif keyPressed[pygame.K_d] and selectedDisk.x == 125 and selectedDisk.y not in (667, 619, 569): 
-            #selectedDisk.x = 500
-        elif keyPressed[pygame.K_d] and selectedDisk.x == 125 and selectedDisk.y in (164, 172): 
+        elif keyPressed[pygame.K_d] and selectedDisk.x == 125 and selectedDisk.y == 166: 
             selectedDisk.x = 500
-        elif keyPressed[pygame.K_d] and selectedDisk.x == 500 and selectedDisk.y in (164, 172): 
+        elif keyPressed[pygame.K_d] and selectedDisk.x == 500 and selectedDisk.y == 166: 
             selectedDisk.x = 870 
-        elif keyPressed[pygame.K_s] and selectedDisk.y != 312 and selectedDisk.y in (164, 172): 
-            selectedDisk.y = 667
-            moveCount += 1
-            #add dropping disk
+        elif keyPressed[pygame.K_RETURN] and selectedDisk.y < 666:            
+            while True:
+                ticks -= 1
+                selectedDisk.y += velocity
+                drawWindow(diskOneMove, diskTwoMove, diskThreeMove, selectedDisk, groundCollider)
+                if ticks == 0 or pygame.Rect.colliderect(diskTwoMove, selectedDisk) or pygame.Rect.colliderect(diskOneMove, selectedDisk):
+                    break
+            if pygame.Rect.colliderect(selectedDisk, groundCollider):
+                moveCount += 1
+            if pygame.Rect.colliderect(selectedDisk, diskTwoMove):
+                moveCount += 1
+                selectedDisk.y = diskTwoMove.y - 50
+            if pygame.Rect.colliderect(selectedDisk, diskOneMove):
+                moveCount += 1
+                selectedDisk.y = diskOneMove.y - 48
+                
     if selectedDisk == diskTwoMove:
-        if keyPressed[pygame.K_w] and selectedDisk.y > 175:
-            selectedDisk.y -= velocity
-        elif keyPressed[pygame.K_a] and selectedDisk.x == 470 and selectedDisk.y in (169, 157):
+        if keyPressed[pygame.K_w]:
+            selectedDisk.y = 166
+        elif keyPressed[pygame.K_a] and selectedDisk.x == 470 and selectedDisk.y == 166:
             selectedDisk.x = 96
-        elif keyPressed[pygame.K_a] and selectedDisk.x == 840 and selectedDisk.y in (169, 157):
+        elif keyPressed[pygame.K_a] and selectedDisk.x == 840 and selectedDisk.y == 166:
             selectedDisk.x = 470
-        elif keyPressed[pygame.K_d] and selectedDisk.x == 96 and selectedDisk.y in (169, 157): 
+        elif keyPressed[pygame.K_d] and selectedDisk.x == 96 and selectedDisk.y == 166: 
             selectedDisk.x = 470
-        elif keyPressed[pygame.K_d] and selectedDisk.x == 470 and selectedDisk.y in (169, 157): 
+        elif keyPressed[pygame.K_d] and selectedDisk.x == 470 and selectedDisk.y == 166: 
             selectedDisk.x = 840  
-        elif keyPressed[pygame.K_s] and selectedDisk.y != 312 and selectedDisk.y in (169, 157): 
-            selectedDisk.y = 667
-            moveCount += 1
-            #add dropping disk
+        elif keyPressed[pygame.K_RETURN] and selectedDisk.y < 666:            
+            while True:
+                ticks -= 1
+                selectedDisk.y += velocity
+                drawWindow(diskOneMove, diskTwoMove, diskThreeMove, selectedDisk, groundCollider)
+                if ticks == 0 or pygame.Rect.colliderect(diskOneMove, selectedDisk) or pygame.Rect.colliderect(diskThreeMove, selectedDisk):
+                    break
+            if pygame.Rect.colliderect(selectedDisk, groundCollider):
+                moveCount += 1
+            if pygame.Rect.colliderect(diskThreeMove, selectedDisk):
+                selectedDisk.y = 166
+                allowedMove = False
+                drawWindow(diskOneMove, diskTwoMove, diskThreeMove, selectedDisk, groundCollider)
+                pygame.time.wait(1500)
+                allowedMove = True
+                drawWindow(diskOneMove, diskTwoMove, diskThreeMove, selectedDisk, groundCollider)
+            if pygame.Rect.colliderect(selectedDisk, diskOneMove):
+                moveCount += 1
+                selectedDisk.y = diskOneMove.y - 48
+            
     if selectedDisk == diskOneMove:
-        if keyPressed[pygame.K_w] and selectedDisk.y > 175:
-            selectedDisk.y -= velocity
-        elif keyPressed[pygame.K_a] and selectedDisk.x == 445 and selectedDisk.y == 157:
+        if keyPressed[pygame.K_w]: 
+            selectedDisk.y = 166
+        elif keyPressed[pygame.K_a] and selectedDisk.x == 445 and selectedDisk.y == 166:
             selectedDisk.x = 70
-        elif keyPressed[pygame.K_a] and selectedDisk.x == 815 and selectedDisk.y == 157:
+        elif keyPressed[pygame.K_a] and selectedDisk.x == 815 and selectedDisk.y == 166:
             selectedDisk.x = 445
-        elif keyPressed[pygame.K_d] and selectedDisk.x == 70 and selectedDisk.y == 157: 
+        elif keyPressed[pygame.K_d] and selectedDisk.x == 70 and selectedDisk.y == 166: 
             selectedDisk.x = 445
-        elif keyPressed[pygame.K_d] and selectedDisk.x == 445 and selectedDisk.y == 157: 
+        elif keyPressed[pygame.K_d] and selectedDisk.x == 445 and selectedDisk.y == 166: 
             selectedDisk.x = 815
-        elif keyPressed[pygame.K_s] and selectedDisk.y != 312 and selectedDisk.y == 157: 
-            selectedDisk.y = 667
-            moveCount += 1
-            #add dropping disks
-    
-    #do if selected disk == red disk etc etc, do new set of moves to line up with poles
-    #   for red disk x and y values need changing elif keyPressed[pygame.K_d] and selectedDisk.x in (-20, -70, -100) and selectedDisk.y not in (172, 242, 312): 
-    #   selectedDisk.x = 350
-    #                  ^^^^^^^ - This is what needs changing for disks
+        elif keyPressed[pygame.K_RETURN] and selectedDisk.y < 666:            
+            while True:
+                ticks -= 1
+                selectedDisk.y += velocity
+                drawWindow(diskOneMove, diskTwoMove, diskThreeMove, selectedDisk, groundCollider)
+                if ticks == 0 or pygame.Rect.colliderect(diskTwoMove, selectedDisk) or pygame.Rect.colliderect(diskThreeMove, selectedDisk):
+                    break
+            if pygame.Rect.colliderect(selectedDisk, groundCollider):
+                moveCount += 1
+            if pygame.Rect.colliderect(diskTwoMove, selectedDisk) or pygame.Rect.colliderect(diskThreeMove, selectedDisk):
+                selectedDisk.y = 166
+                allowedMove = False
+                drawWindow(diskOneMove, diskTwoMove, diskThreeMove, selectedDisk, groundCollider)
+                pygame.time.wait(1500)
+                allowedMove = True
+                drawWindow(diskOneMove, diskTwoMove, diskThreeMove, selectedDisk, groundCollider)
 
-def drawWindow(diskOneMove, diskTwoMove, diskThreeMove, selectedDisk):
+                
+                
+                
+def drawWindow(diskOneMove, diskTwoMove, diskThreeMove, selectedDisk, groundCollider):
     win.blit(backroundImage, (0, 0))
     win.blit(towersImage, (0, 0))
     win.blit(diskOne, (diskOneMove.x, diskOneMove.y))
     win.blit(diskTwo, (diskTwoMove.x, diskTwoMove.y))
     win.blit(diskThree, (diskThreeMove.x, diskThreeMove.y))
     textFont = pygame.font.Font("C:\WINDOWS\Fonts\OCRAEXT.TTF", 30)
+    moveAllowedFont = pygame.font.Font("C:\WINDOWS\Fonts\OCRAEXT.TTF", 90)
     moveCountText = textFont.render(f"Move Count: {moveCount}", True, "white")
+    allowedMoveText = moveAllowedFont.render(f"Move Not Allowed!", True, "white")
     if selectedDisk == diskThreeMove:
         selectedDiskText = textFont.render(f"Selected Disk: Green Disk", True, "white")
     if selectedDisk == diskTwoMove:
@@ -93,26 +134,30 @@ def drawWindow(diskOneMove, diskTwoMove, diskThreeMove, selectedDisk):
         selectedDiskText = textFont.render(f"Selected Disk: Blue Disk", True, "white")
     if selectedDisk == None:
         selectedDiskText = textFont.render(f"No Disk Selected", True, "white")
+    if allowedMove == False:
+        win.blit(allowedMoveText, (175, 200))
+    if allowedMove == True:
+        win.blit(allowedMoveText, (2000, 2000))
     win.blit(moveCountText, (0, 0))
     win.blit(selectedDiskText, (0, 40))
-    #pygame.draw.rect(win, "red", diskThreeMove, 1)
-    #pygame.draw.rect(win, "red", diskOneMove, 1)
-    #pygame.draw.rect(win, "red", diskTwoMove, 1)
+    '''
+    pygame.draw.rect(win, "red", diskThreeMove, 1)
+    pygame.draw.rect(win, "red", diskOneMove, 1)
+    pygame.draw.rect(win, "red", diskTwoMove, 1)
+    '''
+    pygame.draw.rect(win, "red", groundCollider, 1)
     pygame.display.update()
 
 def main():
-    diskOneMove = diskOne.get_rect(topleft=(70, 667))
-    diskTwoMove = diskTwo.get_rect(topleft=(96, 619))
-    diskThreeMove = diskThree.get_rect(topleft=(125, 569))
-    #diskOneMove = pygame.Rect(-100, 312, 508, 406)
-    #diskTwoMove = pygame.Rect(-70, 242, 450, 406)
-    #diskThreeMove = pygame.Rect(-20, 172, 352, 406)
+    diskOneMove = diskOne.get_rect(topleft=(70, 666))
+    diskTwoMove = diskTwo.get_rect(topleft=(96, 618))
+    diskThreeMove = diskThree.get_rect(topleft=(125, 568))
+    groundCollider = pygame.Rect(0, 715, 1200, 90)
     clock = pygame.time.Clock()
     running = True
     selectedDisk = None
     while running: 
         clock.tick(fps)
-        print(diskOneMove.y)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -123,11 +168,13 @@ def main():
                     selectedDisk = diskTwoMove
                 if pygame.Rect.collidepoint(diskThreeMove, pygame.mouse.get_pos()):
                     selectedDisk = diskThreeMove
-        if pygame.Rect.colliderect(diskThreeMove, diskTwoMove):
+        '''
+        if pygame.Rect.colliderect(diskOneMove, groundCollider):
             print("Collision Detected")
-        drawWindow(diskOneMove, diskTwoMove, diskThreeMove, selectedDisk)
+        '''
+        drawWindow(diskOneMove, diskTwoMove, diskThreeMove, selectedDisk, groundCollider)
         keyPressed = pygame.key.get_pressed()
-        moveDisks(keyPressed, selectedDisk, diskOneMove, diskTwoMove, diskThreeMove)
+        moveDisks(keyPressed, selectedDisk, diskOneMove, diskTwoMove, diskThreeMove, groundCollider)
     
     
     pygame.quit()
