@@ -1,16 +1,24 @@
 import pygame
 import os
+from TOCsaving import TOCsaving
 
 class TOCmenus:
     def __init__(self):
         pygame.font.init()
         pygame.init()
         self.fps = 10
+        self.threeDisksWin = False
+        self.fourDisksWin = False
+        self.fiveDisksWin = False
+        self.moveCount = 0
+        self.playerName = "test"
+        self.saving = TOCsaving()
         self.endSurfaceSizeWidth, self.endSurfaceSizeHeight = 1200, 800
         self.endScreenText = pygame.font.Font("C:\WINDOWS\Fonts\OCRAEXT.TTF", 60)
         self.endScreenTextOne = pygame.font.Font("C:\WINDOWS\Fonts\OCRAEXT.TTF", 90)
         self.backroundImage = pygame.image.load(os.path.join("Assets", "scrollingimage.gif"))
         self.towersImage = pygame.image.load(os.path.join("Assets", "3towers.png"))
+
     
     def drawWindow(self):
         pygame.display.update()
@@ -38,9 +46,17 @@ class TOCmenus:
                 if event.type == pygame.MOUSEBUTTONUP:
                     if pygame.Rect.collidepoint(self.menuText, pygame.mouse.get_pos()):
                         print("works")
+                        self.threeDisksWin = False
+                        self.fourDisksWin = False
+                        self.fiveDisksWin = False
                     if pygame.Rect.collidepoint(self.playAgainText, pygame.mouse.get_pos()):
                         print("works")
+                        self.threeDisksWin = False
+                        self.fourDisksWin = False
+                        self.fiveDisksWin = False
                     if pygame.Rect.collidepoint(self.quitText, pygame.mouse.get_pos()):
+                        self.saving.insertScore(self.playerName, self.threeDisksWin, self.fourDisksWin, self.fiveDisksWin, self.moveCount)
+                        self.saving.storeScoresToFile()
                         self.running = False
         pygame.quit()
 
