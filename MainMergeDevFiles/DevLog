@@ -4,9 +4,11 @@ Create assets for disk 4 and 5. - !Done 7/07/2021!
 Write fourDisksTOC.py - !Partial 7/07/2021! - !Done 8/07/2021!
 WritefiveDisksTOC.py - !Done 9/07/2021!
 Implement name and move count saving (persistant storage) - !Partial 15/07/2021! - !Done 9/08/2021!
-Write main menu function in TowersOfCyberpunkMenus.py
-Write main TowersOfCyberpunk.py file, this being the main class which calls all functions. *Do Last*
-Implement sound effects and music (BFXR)
+Write main menu function in TowersOfCyberpunkMenus.py - !Partial 9/08/2021!
+    Write help screen function in TowersOfCyberpunkMenus.py - !Done 10/08/2021!
+    Write Hall of fame function in TowersOfCyberpunk.py 
+Write main TowersOfCyberpunk.py file, this being the main class which calls all functions. - !Done 11/08/2021!
+Implement sound effects and music (BFXR) music maybe HOME - Resonance
 
 
     

@@ -1,7 +1,9 @@
 import pygame
 import os
-from TowersOfCyberpunkMenus import TOCmenus
-from TOCsaving import TOCsaving
+import sys
+import TOCmenus
+import TOCsaving
+
 
 class fourDisks:
     def __init__(self):
@@ -35,8 +37,8 @@ class fourDisks:
         self.diskThree = pygame.transform.scale(self.diskThreeS, (self.diskWidthS, self.diskHeightS))
         self.diskFour = pygame.transform.scale(self.diskFourXS, (self.diskWidthXS, self.diskHeightXS))
         #refering to imported classes
-        self.menus = TOCmenus()
-        self.saving = TOCsaving()
+        self.menus = TOCmenus.TOCmenus()
+        self.saving = TOCsaving.TOCsaving()
         #move Count variable
         self.moveCount = 0
         #Allowed move and flying disk bools
@@ -47,6 +49,7 @@ class fourDisks:
         self.diskFourFlying = False
         self.fourPlayerWin = False
         #calling main
+        self.menus.askName(self.win)
         self.main()
 
     def allowMoveScript(self, diskOneMove, diskTwoMove, diskThreeMove, diskFourMove, selectedDisk, groundCollider):
@@ -319,7 +322,7 @@ class fourDisks:
             self.diskThreeMove.x = 125
             self.diskFourMove.x = 148
             self.fourPlayerWin = False
-            self.menus.endScreenMenu(self.win)
+            self.menus.endScreenMenu(self.win, fourDisks)
         self.win.blit(self.moveCountText, (0, 0))
         self.win.blit(self.selectedDiskText, (0, 40))
         '''
@@ -348,6 +351,7 @@ class fourDisks:
                 if event.type == pygame.QUIT:
                     #This detects if the X button has been pressed, quitting the program
                     self.running = False
+                    pygame.quit()
                 elif event.type == pygame.MOUSEBUTTONUP:
                     #This detects when the mouse button has been clicked and is moving back up.
                     #When this occurs if the mouse pos is inside the Rect of a disk the selectedDisk variable becomes the disk that has been clicked.
@@ -367,7 +371,7 @@ class fourDisks:
             self.moveDiskTwo(self.keyPressed, self.selectedDisk, self.diskOneMove, self.diskTwoMove, self.diskThreeMove, self.groundCollider)
             self.moveDiskOne(self.keyPressed, self.selectedDisk, self.diskOneMove, self.diskTwoMove, self.diskThreeMove, self.groundCollider)
             self.detectWin(self.diskOneMove, self.diskTwoMove, self.diskThreeMove)
-        pygame.quit()
+        sys.exit()
         
         
         
