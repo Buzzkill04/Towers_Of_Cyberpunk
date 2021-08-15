@@ -195,7 +195,7 @@ class TOCmenus:
             self.helpParagraph1 = win.blit(self.paragraphText.render(f"players are supposed to move the disks from the left", True, self.white), (30, 235))
             self.helpParagraph2 = win.blit(self.paragraphText.render(f"hand pole to the right hand pole in the minimum amount of moves.", True, self.white), (30, 270))  
             self.helpParagraph3 = win.blit(self.paragraphText.render(f"The minimum amount of moves can be calulated with the formula", True, self.white), (30, 305))  
-            self.helpParagraph4 = win.blit(self.paragraphText.render(f"2x + 1 where x is the amount of disks.", True, self.white), (30, 340))  
+            self.helpParagraph4 = win.blit(self.paragraphText.render(f"2^x - 1 where x is the amount of disks.", True, self.white), (30, 340))  
             self.backText = win.blit(self.mainMenuDisksText.render(f"Back", True, self.white), (550, 650))
             #draws a square around the the back button
             pygame.draw.rect(win, "white", self.backText, 2)

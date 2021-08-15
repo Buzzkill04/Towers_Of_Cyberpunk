@@ -99,13 +99,13 @@ class TOCsaving:
                             win.blit(self.silverStar, (50, (190 * i)))
                     elif len(scores) == 2:
                         scoreText = win.blit(self.paragraphText.render(f"GM 1: {scores[0]}, GM 2: {scores[1]}", True, (255, 255, 255)), (350, (200 * i)))
-                        if scores[0] == 7 or scores[1] == 9:
+                        if scores[0] == 7 or scores[1] == 15:
                             win.blit(self.goldStar,(50, (190 * i)))
                         else:
                             win.blit(self.silverStar, (50, (190 * i)))
                     elif len(scores) == 3:
                         scoreText = win.blit(self.paragraphText.render(f"GM 1: {scores[0]}, GM 2: {scores[1]}, GM 3: {scores[2]}", True, (255, 255, 255)), (350, (200 * i)))
-                        if scores[0] == 7 or scores[1] == 9 or scores[2] == 11:
+                        if scores[0] == 7 or scores[1] == 15 or scores[2] == 31:
                             win.blit(self.goldStar,(50, (190 * i)))
                         else:
                             win.blit(self.silverStar, (50, (190 * i)))
