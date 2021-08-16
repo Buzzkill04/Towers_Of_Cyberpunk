@@ -192,6 +192,10 @@ class fiveDisks:
                     if pygame.Rect.colliderect(self.selectedDisk, self.diskTwoMove):
                         self.moveCount += 1
                         self.selectedDisk.y = self.diskTwoMove.y - 50
+                    if pygame.Rect.colliderect(self.selectedDisk, self.diskFiveMove):
+                        self.diskFourFlying = True
+                        self.selectedDisk.y = 166
+                        self.allowMoveScript(self.diskOneMove, self.diskTwoMove, self.diskThreeMove, self.diskFourMove, self.selectedDisk, self.groundCollider)
                     if pygame.Rect.colliderect(self.selectedDisk, self.diskOneMove):
                         self.moveCount += 1
                         self.selectedDisk.y = self.diskOneMove.y - 48
@@ -247,7 +251,7 @@ class fiveDisks:
                     #From the y value of the disk it collides with
                     if pygame.Rect.colliderect(self.selectedDisk, self.groundCollider):
                         self.moveCount += 1
-                    if pygame.Rect.colliderect(self.selectedDisk, self.diskFourMove):
+                    if pygame.Rect.colliderect(self.selectedDisk, self.diskFourMove) or pygame.Rect.colliderect(self.selectedDisk, self.diskFiveMove):
                         self.diskThreeFlying = True
                         self.selectedDisk.y = 166
                         self.allowMoveScript(self.diskOneMove, self.diskTwoMove, self.diskThreeMove, self.diskFourMove, self.selectedDisk, self.groundCollider)
@@ -305,7 +309,7 @@ class fiveDisks:
                     #From the y value of the disk it collides with
                     if pygame.Rect.colliderect(self.selectedDisk, self.groundCollider):
                         self.moveCount += 1
-                    if pygame.Rect.colliderect(self.diskThreeMove, self.selectedDisk) or pygame.Rect.colliderect(self.diskFourMove, self.selectedDisk):
+                    if pygame.Rect.colliderect(self.diskThreeMove, self.selectedDisk) or pygame.Rect.colliderect(self.diskFourMove, self.selectedDisk) or pygame.Rect.colliderect(self.selectedDisk, self.diskFiveMove):
                         self.diskTwoFlying = True
                         self.selectedDisk.y = 166
                         self.allowMoveScript(self.diskOneMove, self.diskTwoMove, self.diskThreeMove, self.diskFourMove, self.selectedDisk, self.groundCollider)
@@ -361,7 +365,7 @@ class fiveDisks:
                     if pygame.Rect.colliderect(self.selectedDisk, self.groundCollider):
                         self.moveCount += 1
                     if pygame.Rect.colliderect(self.diskTwoMove, self.selectedDisk) or pygame.Rect.colliderect(self.diskThreeMove, self.selectedDisk) \
-                        or pygame.Rect.colliderect(self.diskFourMove, self.selectedDisk):
+                        or pygame.Rect.colliderect(self.diskFourMove, self.selectedDisk) or pygame.Rect.colliderect(self.selectedDisk, self.diskFiveMove):
                         self.diskOneFlying = True
                         self.selectedDisk.y = 166
                         self.allowMoveScript(self.diskOneMove, self.diskTwoMove, self.diskThreeMove, self.diskFourMove, self.selectedDisk, self.groundCollider)
