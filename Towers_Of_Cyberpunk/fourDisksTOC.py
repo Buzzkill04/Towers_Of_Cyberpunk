@@ -182,6 +182,8 @@ class fourDisks:
                     #From the y value of the disk it collides with
                     if pygame.Rect.colliderect(self.selectedDisk, self.groundCollider):
                         self.moveCount += 1
+                    #if the dropping disk collides with a disk smaller than it, it rejects the move.
+                    #It then moves the disk to the normal height and runs the allowMoveScript
                     if pygame.Rect.colliderect(self.selectedDisk, self.diskFourMove):
                         self.diskThreeFlying = True
                         self.selectedDisk.y = 166
@@ -242,6 +244,8 @@ class fourDisks:
                     #From the y value of the disk it collides with
                     if pygame.Rect.colliderect(self.selectedDisk, self.groundCollider):
                         self.moveCount += 1
+                    #if the dropping disk collides with a disk smaller than it, it rejects the move.
+                    #It then moves the disk to the normal height and runs the allowMoveScript
                     if pygame.Rect.colliderect(self.diskThreeMove, self.selectedDisk) or pygame.Rect.colliderect(self.diskFourMove, self.selectedDisk):
                         self.diskTwoFlying = True
                         self.selectedDisk.y = 166
@@ -299,6 +303,8 @@ class fourDisks:
                     #From the y value of the disk it collides with
                     if pygame.Rect.colliderect(self.selectedDisk, self.groundCollider):
                         self.moveCount += 1
+                    #if the dropping disk collides with a disk smaller than it, it rejects the move.
+                    #It then moves the disk to the normal height and runs the allowMoveScript
                     if pygame.Rect.colliderect(self.diskTwoMove, self.selectedDisk) or pygame.Rect.colliderect(self.diskThreeMove, self.selectedDisk) \
                         or pygame.Rect.colliderect(self.diskFourMove, self.selectedDisk):
                         self.diskOneFlying = True
